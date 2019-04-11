@@ -28,11 +28,18 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
   })
   .catch(err => console.log(err));
     
-function addElement(element, className, parent) {
-  const newElement = document.createElement(element);
+function addElement(tagName, className, parent) {
+  const newElement = document.createElement(tagName);
   newElement.className = className;
   parent.appendChild(newElement);
   return newElement;
+}
+
+function addButton(className, parent, id, innerHTML) {
+  const newButton = addElement('button', className, parent);
+  newButton.setAttribute('type', 'button');
+  newButton.setAttribute('id', id);
+  newButton.innerHTML = innerHTML;
 }
 
 $('#gallery').on('click', '.card', function() {
@@ -43,10 +50,7 @@ $('#gallery').on('click', '.card', function() {
 
     const modalDiv = addElement('div', 'modal', modalContainer);
 
-    const closeButton = addElement('button', 'modal-close-btn', modalDiv);
-    closeButton.setAttribute('type', 'button');
-    closeButton.setAttribute('id', 'modal-close-btn');
-    closeButton.innerHTML = '<strong>X</strong>';
+    const closeButton = addButton('modal-close-btn', modalDiv, 'modal-close-btn', '<strong>X</strong>');
 
     const modalInfo = addElement('div', 'modal-info-container', modalDiv);
   
@@ -77,15 +81,9 @@ $('#gallery').on('click', '.card', function() {
 
     const modalButtonDiv = addElement('div', 'modal-btn-container', modalContainer);
 
-    const prevButton = addElement('button', 'modal-prev btn', modalButtonDiv);
-    prevButton.setAttribute('type', 'button');
-    prevButton.setAttribute('id', 'modal-prev');
-    prevButton.textContent = 'Prev';
+    const prevButton = addButton('modal-prev btn', modalButtonDiv, 'modal-prev', 'Prev');
 
-    const nextButton = addElement('button', 'modal-next btn', modalButtonDiv);
-    nextButton.setAttribute('type', 'button');
-    nextButton.setAttribute('id', 'modal-next');
-    nextButton.textContent = 'Next';
+    const nextButton = addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
 })
 
 $('body').on('click', '#modal-close-btn', function() {
