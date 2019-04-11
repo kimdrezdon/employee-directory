@@ -1,39 +1,93 @@
 let employees = [];
 
-$.ajax({
-    url: 'https://randomuser.me/api/?nat=us&results=12',
-    dataType: 'json',
-    success: function(response) {
-      employees = response.results;
-      $.each(employees, function(i, employee) {
-        $('#gallery').append(`<div class="card"></div>`);
-        $('.card').eq(i).append(`<div class='card-img-container'></div>`);
-        $('.card-img-container').eq(i).append(`<img class='card-img' src='${employee.picture.medium}' alt='profile picture'>`);
-        $('.card').eq(i).append(`<div class='card-info-container'></div>`);
-        $('.card-info-container').eq(i).append(`<h3 id='name' class='card-name cap'>${employee.name.first} ${employee.name.last}</h3>`);
-        $('.card-info-container').eq(i).append(`<p class='card-text'>${employee.email}</p>`);
-        $('.card-info-container').eq(i).append(`<p class='card-text cap'>${employee.location.city}</p>`);
-      })
+fetch('https://randomuser.me/api/?nat=us&results=12')
+  .then(response => response.json())
+  .then(function (json) {
+    employees = json.results;
+    for(let i=0; i < employees.length; i++) {
+      const cardDiv = addElement('div', 'card', document.querySelector('#gallery'));
+      
+      const cardImgDiv = addElement('div', 'card-img-container', cardDiv);
+    
+      const cardImg = addElement('img', 'card-img', cardImgDiv);
+      cardImg.setAttribute('src', employees[i].picture.medium);
+      cardImg.setAttribute('alt', 'profile picture');
+      
+      const cardInfoDiv = addElement('div', 'card-info-container', cardDiv);
+      
+      const name = addElement('h3', 'card-name cap', cardInfoDiv);
+      name.setAttribute('id', 'name');
+      name.textContent = `${employees[i].name.first} ${employees[i].name.last}`;
+      
+      const email = addElement('p', 'card-text', cardInfoDiv);
+      email.textContent = employees[i].email;
+      
+      const location = addElement('p', 'card-text cap', cardInfoDiv);
+      location.textContent = employees[i].location.city;
     }
-});
+  })
+  .catch(err => console.log(err));
+    
+function addElement(element, className, parent) {
+  const newElement = document.createElement(element);
+  newElement.className = className;
+  parent.appendChild(newElement);
+  return newElement;
+}
 
-$('body').on('click', '.card', function() {
-  const i = $('.card').index(this);
-  const employee = employees[i];
-  $('body').append(`<div class='modal-container'></div>`);
-  $('.modal-container').append(`<div class='modal'></div>`);
-  $('.modal').append(`<button type='button' id='modal-close-btn' class='modal-close-btn'><strong>X</strong></button>`);
-  $('.modal').append(`<div class='modal-info-container'></div>`);
-  $('.modal-info-container').append(`<img class='modal-img' src='${employee.picture.large}' alt='profile picture'>`)
-  $('.modal-info-container').append(`<h3 id='name' class='modal-name cap'>${employee.name.first} ${employee.name.last}</h3>`);
-  $('.modal-info-container').append(`<p class='modal-text'>${employee.email}</p>`);
-  $('.modal-info-container').append(`<p class='modal-text cap'>${employee.location.city}</p>`);
-  $('.modal-info-container').append(`<hr>`);
-  $('.modal-info-container').append(`<p class='modal-text'>${employee.cell}</p>`);
-  $('.modal-info-container').append(`<p class='modal-text'>${employee.location.street} ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}</p>`);
-  $('.modal-info-container').append(`<p class='modal-text'>Birthday: ${employee.dob.date}</p>`);
-});
+$('#gallery').on('click', '.card', function() {
+    const i = $('.card').index(this);
+    const employee = employees[i];
+    
+    const modalContainer = addElement('div', 'modal-container', document.querySelector('body'));
+
+    const modalDiv = addElement('div', 'modal', modalContainer);
+
+    const closeButton = addElement('button', 'modal-close-btn', modalDiv);
+    closeButton.setAttribute('type', 'button');
+    closeButton.setAttribute('id', 'modal-close-btn');
+    closeButton.innerHTML = '<strong>X</strong>';
+
+    const modalInfo = addElement('div', 'modal-info-container', modalDiv);
+  
+    const modalImg = addElement('img', 'modal-img', modalInfo);
+    modalImg.setAttribute('src', employees[i].picture.large);
+    modalImg.setAttribute('alt', 'profile picture');
+
+    const name = addElement('h3', 'modal-name cap', modalInfo);
+    name.setAttribute('id', 'name');
+    name.textContent = `${employees[i].name.first} ${employees[i].name.last}`;
+    
+    const email = addElement('p', 'modal-text', modalInfo);
+    email.textContent = employees[i].email;
+
+    const location = addElement('p', 'modal-text cap', modalInfo);
+    location.textContent = employees[i].location.city;
+
+    modalInfo.appendChild(document.createElement('hr'));
+
+    const phone = addElement('p', 'modal-text', modalInfo);
+    phone.textContent = employees[i].cell;
+
+    const address = addElement('p', 'modal-text cap', modalInfo);
+    address.textContent = `${employee.location.street}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}`;
+
+    const birthday = addElement('p', 'modal-text', modalInfo);
+    birthday.textContent = `Birthday: ${employee.dob.date.slice(5,7)}/${employee.dob.date.slice(8,10)}/${employee.dob.date.slice(0,4)}`;
+
+    const modalButtonDiv = addElement('div', 'modal-btn-container', modalContainer);
+
+    const prevButton = addElement('button', 'modal-prev btn', modalButtonDiv);
+    prevButton.setAttribute('type', 'button');
+    prevButton.setAttribute('id', 'modal-prev');
+    prevButton.textContent = 'Prev';
+
+    const nextButton = addElement('button', 'modal-next btn', modalButtonDiv);
+    nextButton.setAttribute('type', 'button');
+    nextButton.setAttribute('id', 'modal-next');
+    nextButton.textContent = 'Next';
+})
 
 $('body').on('click', '#modal-close-btn', function() {
-  $('.modal-container').remove();
+  document.querySelector('body').removeChild(document.querySelector('.modal-container'));
 });
