@@ -9,9 +9,7 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
       
       const cardImgDiv = addElement('div', 'card-img-container', cardDiv);
     
-      const cardImg = addElement('img', 'card-img', cardImgDiv);
-      cardImg.setAttribute('src', employees[i].picture.medium);
-      cardImg.setAttribute('alt', 'profile picture');
+      const cardImg = addImage('card-img', cardImgDiv, employees[i].picture.medium);
       
       const cardInfoDiv = addElement('div', 'card-info-container', cardDiv);
       
@@ -42,6 +40,13 @@ function addButton(className, parent, id, innerHTML) {
   newButton.innerHTML = innerHTML;
 }
 
+function addImage(className, parent, src){
+  const newImage = addElement('img', className, parent);
+  newImage.setAttribute('src', src);
+  newImage.setAttribute('alt', 'profile picture');
+  return newImage;
+}
+
 $('#gallery').on('click', '.card', function() {
     const i = $('.card').index(this);
     createModal(i);
@@ -58,9 +63,7 @@ function createModal (i) {
 
   const modalInfo = addElement('div', 'modal-info-container', modalDiv);
 
-  const modalImg = addElement('img', 'modal-img', modalInfo);
-  modalImg.setAttribute('src', employees[i].picture.large);
-  modalImg.setAttribute('alt', 'profile picture');
+  const modalImg = addImage('modal-img', modalInfo, employees[i].picture.large);
 
   const name = addElement('h3', 'modal-name cap', modalInfo);
   name.setAttribute('id', 'name');
