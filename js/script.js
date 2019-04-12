@@ -23,9 +23,29 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
       const location = addElement('p', 'card-text cap', cardInfoDiv);
       location.textContent = employees[i].location.city;
     }
+    createSearch();
   })
   .catch(err => console.log(err));
     
+function createSearch() { 
+  const searchContainer = document.querySelector('.search-container');
+  
+  const searchForm = document.createElement('form');
+  searchForm.setAttribute('action', '#');
+  searchForm.setAttribute('method', 'get');
+  searchContainer.appendChild(searchForm);
+
+  const searchInput = addElement('input', 'search-input', searchForm);
+  searchInput.setAttribute('type', 'search');
+  searchInput.setAttribute('id', 'search-input');
+  searchInput.setAttribute('placeholder', 'Search...');
+ 
+  const searchSubmit = addElement('input', 'search-submit', searchForm);
+  searchSubmit.setAttribute('type', 'submit');
+  searchSubmit.setAttribute('id', 'search-submit');
+  searchSubmit.setAttribute('value', '\ud83d\udd0d');
+}
+
 function addElement(tagName, className, parent) {
   const newElement = document.createElement(tagName);
   newElement.className = className;
@@ -46,11 +66,6 @@ function addImage(className, parent, src){
   newImage.setAttribute('alt', 'profile picture');
   return newImage;
 }
-
-$('#gallery').on('click', '.card', function() {
-    const i = $('.card').index(this);
-    createModal(i);
-})
 
 function createModal (i) {
   const employee = employees[i];
@@ -92,6 +107,11 @@ function createModal (i) {
 
   const nextButton = addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
 }
+
+$('#gallery').on('click', '.card', function() {
+  const i = $('.card').index(this);
+  createModal(i);
+})
 
 $('body').on('click', '#modal-close-btn', function() {
   document.querySelector('body').removeChild(document.querySelector('.modal-container'));
