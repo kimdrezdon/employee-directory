@@ -154,21 +154,34 @@ function createModal (i) {
     
     const employeeCards = document.querySelectorAll('.card');
     let employee = employeeCards[employeeIndex];
-    do {
-        employeeIndex -= 1;  
-        employee = employeeCards[employeeIndex];
-    } while (employee.style.display === 'none' && employeeIndex > 0);
+    if (employeeIndex > 0) {
+      employeeIndex -= 1;  
+      employee = employeeCards[employeeIndex];
+    }
+    while (employee.style.display === 'none') {
+      employeeIndex -= 1;  
+      employee = employeeCards[employeeIndex];
+    }
     if (employeeIndex >= 0) {
       createModal(employeeIndex);
-    } else {
-      document.querySelector('body').removeChild(document.querySelector('.modal-container'));
-    }
+    } 
   });
 
   document.querySelector('#modal-next').addEventListener('click', () => {
     document.querySelector('body').removeChild(document.querySelector('.modal-container'));
-    if (employeeIndex < (employees.length - 1)) {
-      createModal(employeeIndex + 1);
+    
+    const employeeCards = document.querySelectorAll('.card');
+    let employee = employeeCards[employeeIndex];
+    if (employeeIndex < (employeeCards.length - 1)) {
+      employeeIndex += 1;  
+      employee = employeeCards[employeeIndex];
     }
+    while (employee.style.display === 'none') {
+      employeeIndex += 1;  
+      employee = employeeCards[employeeIndex];
+    }
+    if (employeeIndex <= (employeeCards.length - 1)) {
+      createModal(employeeIndex);
+    } 
   });
 }
