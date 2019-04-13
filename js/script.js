@@ -1,9 +1,11 @@
 let employees = [];
+let employeeIndex = 0;
 
 fetch('https://randomuser.me/api/?nat=us&results=12')
   .then(response => response.json())
   .then(function (json) {
     employees = json.results;
+    
     for(let i=0; i < employees.length; i++) {
       const cardDiv = addElement('div', 'card', document.querySelector('#gallery'));
       
@@ -23,7 +25,13 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
       const location = addElement('p', 'card-text cap', cardInfoDiv);
       location.textContent = employees[i].location.city;
     }
+    
     createSearch();
+    
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((employee, i) => {
+      employee.addEventListener('click', () => createModal(i));
+    });
   })
   .catch(err => console.log(err));
     
@@ -68,6 +76,8 @@ function addImage(className, parent, src){
 }
 
 function createModal (i) {
+  employeeIndex = i;
+  
   const employee = employees[i];
     
   const modalContainer = addElement('div', 'modal-container', document.querySelector('body'));
@@ -108,18 +118,13 @@ function createModal (i) {
   const nextButton = addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
 }
 
-$('#gallery').on('click', '.card', function() {
-  const i = $('.card').index(this);
-  createModal(i);
-})
-
 $('body').on('click', '#modal-close-btn', function() {
   document.querySelector('body').removeChild(document.querySelector('.modal-container'));
 });
 
 $('body').on('click', '#modal-prev', function() {
   console.log('prev button clicked');
-  //createModal(i-1);
+  console.log(this)
 });
 
 $('body').on('click', '#modal-next', function() {
