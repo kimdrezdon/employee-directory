@@ -15,7 +15,7 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
       
       const cardImgDiv = addElement('div', 'card-img-container', cardDiv);
     
-      const cardImg = addImage('card-img', cardImgDiv, employees[i].picture.medium);
+      addImage('card-img', cardImgDiv, employees[i].picture.medium);
       
       const cardInfoDiv = addElement('div', 'card-info-container', cardDiv);
       
@@ -112,11 +112,11 @@ function createModal (i) {
 
   const modalDiv = addElement('div', 'modal', modalContainer);
 
-  const closeButton = addButton('modal-close-btn', modalDiv, 'modal-close-btn', '<strong>X</strong>');
+  addButton('modal-close-btn', modalDiv, 'modal-close-btn', '<strong>X</strong>');
 
   const modalInfo = addElement('div', 'modal-info-container', modalDiv);
 
-  const modalImg = addImage('modal-img', modalInfo, employees[i].picture.large);
+  addImage('modal-img', modalInfo, employees[i].picture.large);
 
   const name = addElement('h3', 'modal-name cap', modalInfo);
   name.setAttribute('id', 'name');
@@ -141,9 +141,9 @@ function createModal (i) {
 
   const modalButtonDiv = addElement('div', 'modal-btn-container', modalContainer);
 
-  const prevButton = addButton('modal-prev btn', modalButtonDiv, 'modal-prev', 'Prev');
+  addButton('modal-prev btn', modalButtonDiv, 'modal-prev', 'Prev');
 
-  const nextButton = addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
+  addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
 
   document.querySelector('#modal-close-btn').addEventListener('click', () => { 
     document.querySelector('body').removeChild(document.querySelector('.modal-container'));
