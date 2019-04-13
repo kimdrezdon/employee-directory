@@ -154,18 +154,23 @@ function createModal (i) {
     
     const employeeCards = document.querySelectorAll('.card');
     let employee = employeeCards[employeeIndex];
-    if (employeeIndex > 0) {
+    if (employeeIndex !== 0) {
       employeeIndex -= 1;  
       employee = employeeCards[employeeIndex];
-    
-      while (employee.style.display === 'none') {
+    } else {
+      employeeIndex = employeeCards.length - 1;
+      employee = employeeCards[employeeIndex];
+    }
+    while (employee.style.display === 'none') {
+      if (employeeIndex !== 0) {
         employeeIndex -= 1;  
         employee = employeeCards[employeeIndex];
+      } else {
+        employeeIndex = employeeCards.length - 1;
+        employee = employeeCards[employeeIndex];
       }
-      if (employeeIndex >= 0) {
-        createModal(employeeIndex);
-      } 
     }
+    createModal(employeeIndex);
   });
 
   document.querySelector('#modal-next').addEventListener('click', () => {
@@ -173,17 +178,22 @@ function createModal (i) {
     
     const employeeCards = document.querySelectorAll('.card');
     let employee = employeeCards[employeeIndex];
-    if (employeeIndex < (employeeCards.length - 1)) {
+    if (employeeIndex !== (employeeCards.length - 1)) {
       employeeIndex += 1;  
       employee = employeeCards[employeeIndex];
-      
-      while (employee.style.display === 'none') {
+    } else {
+      employeeIndex = 0;
+      employee = employeeCards[employeeIndex];
+    } 
+    while (employee.style.display === 'none') {
+      if (employeeIndex !== (employeeCards.length - 1)) {
         employeeIndex += 1;  
         employee = employeeCards[employeeIndex];
+      } else {
+        employeeIndex = 0;
+        employee = employeeCards[employeeIndex];
       }
-      if (employeeIndex <= (employeeCards.length - 1)) {
-        createModal(employeeIndex);
-      } 
     }
+    createModal(employeeIndex);
   });
 }
