@@ -116,11 +116,11 @@ function createModal (i) {
   const prevButton = addButton('modal-prev btn', modalButtonDiv, 'modal-prev', 'Prev');
 
   const nextButton = addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
-}
 
-$('body').on('click', '#modal-close-btn', function() {
-  document.querySelector('body').removeChild(document.querySelector('.modal-container'));
-});
+  document.querySelector('.modal-close-btn').addEventListener('click', () => { 
+    document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+  });
+}
 
 $('body').on('click', '#modal-prev', function() {
   console.log('prev button clicked');
