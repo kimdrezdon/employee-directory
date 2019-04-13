@@ -157,14 +157,15 @@ function createModal (i) {
     if (employeeIndex > 0) {
       employeeIndex -= 1;  
       employee = employeeCards[employeeIndex];
+    
+      while (employee.style.display === 'none') {
+        employeeIndex -= 1;  
+        employee = employeeCards[employeeIndex];
+      }
+      if (employeeIndex >= 0) {
+        createModal(employeeIndex);
+      } 
     }
-    while (employee.style.display === 'none') {
-      employeeIndex -= 1;  
-      employee = employeeCards[employeeIndex];
-    }
-    if (employeeIndex >= 0) {
-      createModal(employeeIndex);
-    } 
   });
 
   document.querySelector('#modal-next').addEventListener('click', () => {
@@ -175,13 +176,14 @@ function createModal (i) {
     if (employeeIndex < (employeeCards.length - 1)) {
       employeeIndex += 1;  
       employee = employeeCards[employeeIndex];
+      
+      while (employee.style.display === 'none') {
+        employeeIndex += 1;  
+        employee = employeeCards[employeeIndex];
+      }
+      if (employeeIndex <= (employeeCards.length - 1)) {
+        createModal(employeeIndex);
+      } 
     }
-    while (employee.style.display === 'none') {
-      employeeIndex += 1;  
-      employee = employeeCards[employeeIndex];
-    }
-    if (employeeIndex <= (employeeCards.length - 1)) {
-      createModal(employeeIndex);
-    } 
   });
 }
