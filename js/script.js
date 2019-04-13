@@ -1,6 +1,10 @@
 let employees = [];
 let employeeIndex = 0;
 
+/**
+ * Fetches data from the API for 12 students
+ */
+
 fetch('https://randomuser.me/api/?nat=us&results=12')
   .then(response => response.json())
   .then(function (json) {
@@ -28,13 +32,18 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
     
     createSearch();
     
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((employee, i) => {
-      employee.addEventListener('click', () => createModal(i));
-    });
+    cardEventListener();
   })
   .catch(err => console.log(err));
     
+
+function cardEventListener () {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((employee, i) => {
+    employee.addEventListener('click', () => createModal(i));
+  });
+}
+
 function createSearch() { 
   const searchContainer = document.querySelector('.search-container');
   
@@ -46,12 +55,31 @@ function createSearch() {
   const searchInput = addElement('input', 'search-input', searchForm);
   searchInput.setAttribute('type', 'search');
   searchInput.setAttribute('id', 'search-input');
-  searchInput.setAttribute('placeholder', 'Search...');
+  searchInput.placeholder = 'Search...';
  
   const searchSubmit = addElement('input', 'search-submit', searchForm);
   searchSubmit.setAttribute('type', 'submit');
   searchSubmit.setAttribute('id', 'search-submit');
   searchSubmit.setAttribute('value', '\ud83d\udd0d');
+
+  searchSubmit.addEventListener("click", () => {
+    filter();
+  });
+}
+
+function filter () {
+  const searchInput = document.querySelector('#search-input');
+  const userInput = searchInput.value.toUpperCase();
+  const cards = document.querySelectorAll('.card');
+  const employeeNames = document.querySelectorAll('h3');
+
+  cards.forEach((employee, i) => {
+    if (employeeNames[i].textContent.toUpperCase().includes(userInput)) {
+      employee.style.display = "";
+    } else {
+      employee.style.display = "none";
+    }
+  });
 }
 
 function addElement(tagName, className, parent) {
@@ -117,16 +145,30 @@ function createModal (i) {
 
   const nextButton = addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
 
-  document.querySelector('.modal-close-btn').addEventListener('click', () => { 
+  document.querySelector('#modal-close-btn').addEventListener('click', () => { 
     document.querySelector('body').removeChild(document.querySelector('.modal-container'));
   });
+
+  document.querySelector('#modal-prev').addEventListener('click', () => {
+    document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+    
+    const employeeCards = document.querySelectorAll('.card');
+    let employee = employeeCards[employeeIndex];
+    do {
+        employeeIndex -= 1;  
+        employee = employeeCards[employeeIndex];
+    } while (employee.style.display === 'none' && employeeIndex > 0);
+    if (employeeIndex >= 0) {
+      createModal(employeeIndex);
+    } else {
+      document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+    }
+  });
+
+  document.querySelector('#modal-next').addEventListener('click', () => {
+    document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+    if (employeeIndex < (employees.length - 1)) {
+      createModal(employeeIndex + 1);
+    }
+  });
 }
-
-$('body').on('click', '#modal-prev', function() {
-  console.log('prev button clicked');
-  console.log(this)
-});
-
-$('body').on('click', '#modal-next', function() {
-  console.log('next button clicked');
-});
