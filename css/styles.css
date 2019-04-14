@@ -2,7 +2,7 @@
    Public API Request
 ======================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
 
 * {
 	box-sizing: border-box;
@@ -14,9 +14,9 @@ html, body {
 }
 
 body {
-    font-family: "Nunito", sans-serif;
+    font-family: 'PT Sans', sans-serif;
     text-align: center;
-    background: rgba(235, 235, 235, 0.9);
+    background-image: url("../images/saved-by-the-bell.png");
 }
 
 header {
@@ -29,14 +29,14 @@ header {
 }
 
 header h1 {
-    font-size: 1.25em;
-    color: rgba(50, 50, 50, 0.9);
+    font-size: 2em;
+    color: #FFFD82;
     margin-top: 35px;
 }
 
 .search-input {
     padding: 0.4rem 1rem;
-    border: 1px solid rgba(200, 200, 200, 0.9);
+    border: 1px solid #FFFD82;
     border-radius: 0.25rem 0 0 0.25rem ;
     max-width: 20rem;
     transition: .4s ease-out;
@@ -52,7 +52,7 @@ header h1 {
     height: 33px;
     background: rgba(245, 245, 245, 0.9);
     border-radius: 0 0.25rem 0.25rem 0;
-    border: 1px solid rgba(200, 200, 200, 0.9);
+    border: 1px solid #FFFD82;
     transition: .4s ease-out;
     outline: none;
 }
@@ -88,8 +88,8 @@ header h1 {
     margin: 10px 10px 20px;
     padding: 10px;
     background: rgba(245, 245, 245, 0.9);
-    border-radius: 0.25em;
-    border: 1px solid rgba(50, 50, 50, 0.3);
+    border-radius: 0.5em;
+    border: 1px solid #FFFD82;
     transition: .4s ease-out;
     overflow: hidden;
 }
@@ -130,7 +130,7 @@ header h1 {
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(86, 40, 50, 0.7);
 }
 
 .modal {
@@ -141,8 +141,8 @@ header h1 {
     margin: 10px auto auto;
     padding-bottom: 15px;
     background: rgba(255, 255, 255, 1);
-    border-radius: 0.25em;
-    border: 1px solid rgba(100, 100, 100, 0.3);
+    border-radius: 0.5em;
+    border: 3px solid #F67C5A;
     transition: .4s ease-out;
 }
 
@@ -152,10 +152,10 @@ header h1 {
     right: 15px;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.9);
-    background: rgba(0, 0, 0, 0.8);
+    background: #F67C5A;
     outline: none;
-    border-radius: 0.25em;
-    border: 1px solid rgba(50, 50, 50, 0.3);
+    border-radius: 0.5em;
+    border: 3px solid #F67C5A;
 }
 
 .modal-img {
@@ -189,8 +189,8 @@ header h1 {
     padding: 10px 15px 15px;;
     margin: 10px auto auto;
     background: rgba(255, 255, 255, 1);
-    border-radius: 0.25em;
-    border: 1px solid rgba(100, 100, 100, 0.3);
+    border-radius: 0.5em;
+    border: 3px solid #F67C5A;
 }
 
 
@@ -201,7 +201,7 @@ header h1 {
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
     padding: 0.75em 1.5em;
-    background: rgba(0, 0, 0, 0.8);
+    background: #F67C5A;
     border-radius: 0.35em;
     transition: .4s ease-out;
     outline: none;
@@ -249,7 +249,7 @@ header h1 {
 
     .card:hover {
         background: rgba(255, 255, 255, 1);
-        border: 1px solid rgba(50, 50, 50, 0.9);
+        border: 1px solid #F67C5A;
     }
 
     .card:hover .card-text {
