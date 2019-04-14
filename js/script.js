@@ -2,7 +2,10 @@ let employees = [];
 let employeeIndex = 0;
 
 /**
- * Fetches data from the API for 12 students
+ * Fetches data from the API for 12 students. Creates 12 card divs displaying some
+ * basic info for each employee. Calls the createSearch function to create a search
+ * component. Calls the cardEventListener function to attach an event listener to 
+ * each card div.
  */
 
 fetch('https://randomuser.me/api/?nat=us&results=12')
@@ -15,7 +18,7 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
       
       const cardImgDiv = addElement('div', 'card-img-container', cardDiv);
     
-      addImage('card-img', cardImgDiv, employees[i].picture.medium);
+      addImage('card-img', cardImgDiv, employees[i].picture.large);
       
       const cardInfoDiv = addElement('div', 'card-info-container', cardDiv);
       
@@ -36,7 +39,10 @@ fetch('https://randomuser.me/api/?nat=us&results=12')
   })
   .catch(err => console.log(err));
     
-
+/**
+ * Attaches an event listener to each card div. When an employee's card
+ * is clicked, the createModal function is called and a modal window opens.
+ */
 function cardEventListener () {
   const cards = document.querySelectorAll('.card');
   cards.forEach((employee, i) => {
@@ -44,6 +50,10 @@ function cardEventListener () {
   });
 }
 
+/**
+ * Creates a search component. Attaches an event listener to the search button that
+ * calls the filter function to filter the employee list.
+ */
 function createSearch() { 
   const searchContainer = document.querySelector('.search-container');
   
@@ -55,18 +65,22 @@ function createSearch() {
   const searchInput = addElement('input', 'search-input', searchForm);
   searchInput.setAttribute('type', 'search');
   searchInput.setAttribute('id', 'search-input');
-  searchInput.placeholder = 'Search...';
+  searchInput.placeholder = 'Search employees...';
  
   const searchSubmit = addElement('input', 'search-submit', searchForm);
   searchSubmit.setAttribute('type', 'submit');
   searchSubmit.setAttribute('id', 'search-submit');
   searchSubmit.setAttribute('value', '\ud83d\udd0d');
 
-  searchSubmit.addEventListener("click", () => {
+  searchSubmit.addEventListener("click", (e) => {
+    e.preventDefault();
     filter();
   });
 }
 
+/**
+ * Filters the employee list according to the user's input.
+ */
 function filter () {
   const searchInput = document.querySelector('#search-input');
   const userInput = searchInput.value.toUpperCase();
@@ -82,6 +96,9 @@ function filter () {
   });
 }
 
+/** 
+ * Adds a new element to the DOM
+ */
 function addElement(tagName, className, parent) {
   const newElement = document.createElement(tagName);
   newElement.className = className;
@@ -89,6 +106,9 @@ function addElement(tagName, className, parent) {
   return newElement;
 }
 
+/** 
+ * Adds a new button to the DOM
+ */
 function addButton(className, parent, id, innerHTML) {
   const newButton = addElement('button', className, parent);
   newButton.setAttribute('type', 'button');
@@ -96,6 +116,9 @@ function addButton(className, parent, id, innerHTML) {
   newButton.innerHTML = innerHTML;
 }
 
+/** 
+ * Adds a new image to the DOM
+ */
 function addImage(className, parent, src){
   const newImage = addElement('img', className, parent);
   newImage.setAttribute('src', src);
@@ -103,6 +126,12 @@ function addImage(className, parent, src){
   return newImage;
 }
 
+/**
+ * Creates a modal window displaying more information about the employee who's card was
+ * clicked on. Adds event listener to the modal close button. Calls the prevEventListener
+ * and nextEventListener functions to add event listeners to the prev and next buttons
+ * allowing user to toggle through the displayed employees without exiting the modal window.
+ */
 function createModal (i) {
   employeeIndex = i;
   
@@ -134,7 +163,7 @@ function createModal (i) {
   phone.textContent = employees[i].cell;
 
   const address = addElement('p', 'modal-text cap', modalInfo);
-  address.textContent = `${employee.location.street}, ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}`;
+  address.textContent = `${employee.location.street}   ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}`;
 
   const birthday = addElement('p', 'modal-text', modalInfo);
   birthday.textContent = `Birthday: ${employee.dob.date.slice(5,7)}/${employee.dob.date.slice(8,10)}/${employee.dob.date.slice(0,4)}`;
@@ -145,12 +174,27 @@ function createModal (i) {
 
   addButton('modal-next btn', modalButtonDiv, 'modal-next', 'Next');
 
-  document.querySelector('#modal-close-btn').addEventListener('click', () => { 
-    document.querySelector('body').removeChild(document.querySelector('.modal-container'));
-  });
+  document.querySelector('#modal-close-btn').addEventListener('click', () => removeModal());
 
+  prevEventListener();
+
+  nextEventListener();
+}
+
+/**
+ * Removes the modal window.
+ */
+function removeModal() {
+  document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+}
+
+/**
+ * Adds an event listener to the Prev button in the modal window. Allows the user to 
+ * toggle through the displayed employees without exiting the modal window.
+ */
+function prevEventListener() {
   document.querySelector('#modal-prev').addEventListener('click', () => {
-    document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+    removeModal();
     
     const employeeCards = document.querySelectorAll('.card');
     let employee = employeeCards[employeeIndex];
@@ -172,9 +216,15 @@ function createModal (i) {
     }
     createModal(employeeIndex);
   });
+}
 
+/**
+ * Adds an event listener to the Next button in the modal window. Allows the user to 
+ * toggle through the displayed employees without exiting the modal window.
+ */
+function nextEventListener() {
   document.querySelector('#modal-next').addEventListener('click', () => {
-    document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+    removeModal();
     
     const employeeCards = document.querySelectorAll('.card');
     let employee = employeeCards[employeeIndex];
