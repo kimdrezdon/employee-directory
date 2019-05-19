@@ -30,14 +30,14 @@ header {
 
 header h1 {
     font-size: 2em;
-    color: #FFFD82;
+    color: #FCFF56;
     margin-top: 35px;
 }
 
 .search-input {
     padding: 0.4rem 1rem;
-    border: 1px solid #FFFD82;
-    border-radius: 0.25rem 0 0 0.25rem ;
+    border: 1px solid #FCFF56;
+    border-radius: 0.5em 0 0 0.5em ;
     max-width: 20rem;
     transition: .4s ease-out;
     outline: none;
@@ -50,9 +50,9 @@ header h1 {
 .search-submit {
     cursor: pointer;
     height: 33px;
-    background: rgba(245, 245, 245, 0.9);
-    border-radius: 0 0.25rem 0.25rem 0;
-    border: 1px solid #FFFD82;
+    background: #FCF0EA;
+    border-radius: 0 0.5em 0.5em 0;
+    border: 1px solid #FCFF56;
     transition: .4s ease-out;
     outline: none;
 }
@@ -87,9 +87,9 @@ header h1 {
     max-width: 360px;
     margin: 10px 10px 20px;
     padding: 10px;
-    background: rgba(245, 245, 245, 0.9);
+    background: #FCF0EA;
     border-radius: 0.5em;
-    border: 1px solid #FFFD82;
+    border: 0.5px solid #FCFF56;
     transition: .4s ease-out;
     overflow: hidden;
 }
@@ -249,7 +249,7 @@ header h1 {
 
     .card:hover {
         background: rgba(255, 255, 255, 1);
-        border: 1px solid #F67C5A;
+        border: 0.5px solid #F67C5A;
     }
 
     .card:hover .card-text {
