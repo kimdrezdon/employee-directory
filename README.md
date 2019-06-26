@@ -1,4 +1,4 @@
-# techdegree-project-5: Public API Requests
+# Public API Requests
 
 This project is an employee directory that fetches data from the Random User Generator API. 
 
