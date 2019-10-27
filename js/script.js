@@ -172,9 +172,7 @@ function createModal(i) {
   phone.textContent = employees[i].cell;
 
   const address = addElement("p", "modal-text cap", modalInfo);
-  address.textContent = `${employee.location.street}   ${
-    employee.location.city
-  }, ${employee.location.state} ${employee.location.postcode}`;
+  address.textContent = `${employee.location.street.number} ${employee.location.street.name} \u00A0 ${employee.location.city}, ${employee.location.state} \u00A0 ${employee.location.postcode}`;
 
   const birthday = addElement("p", "modal-text", modalInfo);
   birthday.textContent = `Birthday: ${employee.dob.date.slice(5,7)}/${employee.dob.date.slice(8, 10)}/${employee.dob.date.slice(0, 4)}`;
