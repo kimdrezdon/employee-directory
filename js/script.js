@@ -22,15 +22,12 @@ fetch("https://randomuser.me/api/?nat=us&results=12")
 
       const cardInfoDiv = addElement("div", "card-info-container", cardDiv);
 
-      const name = addElement("h3", "card-name cap", cardInfoDiv);
+      const name = addElement("h3", "card-name cap", cardInfoDiv, `${employees[i].name.first} ${employees[i].name.last}`);
       name.setAttribute("id", "name");
-      name.textContent = `${employees[i].name.first} ${employees[i].name.last}`;
 
-      const email = addElement("p", "card-text", cardInfoDiv);
-      email.textContent = employees[i].email;
+      addElement("p", "card-text", cardInfoDiv, employees[i].email);
 
-      const location = addElement("p", "card-text cap", cardInfoDiv);
-      location.textContent = employees[i].location.city;
+      addElement("p", "card-text cap", cardInfoDiv, employees[i].location.city);
     }
 
     createSearch();
@@ -72,6 +69,10 @@ function createSearch() {
   searchSubmit.setAttribute("id", "search-submit");
   searchSubmit.setAttribute("value", "\ud83d\udd0d");
 
+  searchInput.addEventListener("keyup", e => {
+    filter();
+  })
+
   searchSubmit.addEventListener("click", e => {
     e.preventDefault();
     filter();
@@ -99,9 +100,12 @@ function filter() {
 /**
  * Adds a new element to the DOM
  */
-function addElement(tagName, className, parent) {
+function addElement(tagName, className, parent, text) {
   const newElement = document.createElement(tagName);
   newElement.className = className;
+  if (text) {
+    newElement.textContent = text;
+  }
   parent.appendChild(newElement);
   return newElement;
 }
@@ -156,26 +160,20 @@ function createModal(i) {
 
   addImage("modal-img", modalInfo, employees[i].picture.large);
 
-  const name = addElement("h3", "modal-name cap", modalInfo);
+  const name = addElement("h3", "modal-name cap", modalInfo, `${employees[i].name.first} ${employees[i].name.last}`);
   name.setAttribute("id", "name");
-  name.textContent = `${employees[i].name.first} ${employees[i].name.last}`;
 
-  const email = addElement("p", "modal-text", modalInfo);
-  email.textContent = employees[i].email;
+  addElement("p", "modal-text", modalInfo, employees[i].email);
 
-  const location = addElement("p", "modal-text cap", modalInfo);
-  location.textContent = employees[i].location.city;
+  addElement("p", "modal-text cap", modalInfo, employees[i].location.city);
 
   modalInfo.appendChild(document.createElement("hr"));
 
-  const phone = addElement("p", "modal-text", modalInfo);
-  phone.textContent = employees[i].cell;
+  addElement("p", "modal-text", modalInfo, employees[i].cell);
 
-  const address = addElement("p", "modal-text cap", modalInfo);
-  address.textContent = `${employee.location.street.number} ${employee.location.street.name} \u00A0 ${employee.location.city}, ${employee.location.state} \u00A0 ${employee.location.postcode}`;
+  addElement("p", "modal-text cap", modalInfo, `${employee.location.street.number} ${employee.location.street.name} \u00A0 ${employee.location.city}, ${employee.location.state} \u00A0 ${employee.location.postcode}`);
 
-  const birthday = addElement("p", "modal-text", modalInfo);
-  birthday.textContent = `Birthday: ${employee.dob.date.slice(5,7)}/${employee.dob.date.slice(8, 10)}/${employee.dob.date.slice(0, 4)}`;
+  addElement("p", "modal-text", modalInfo, `Birthday: ${employee.dob.date.slice(5,7)}/${employee.dob.date.slice(8, 10)}/${employee.dob.date.slice(0, 4)}`);
 
   const modalButtonDiv = addElement("div", "modal-btn-container", modalContainer);
 
@@ -236,19 +234,13 @@ function prevEventListener() {
  * toggle through the displayed employees without exiting the modal window.
  */
 function nextEventListener() {
-  document.querySelector("#modal-next").addEventListener("click", () => {
-    removeModal();
+  document
+    .querySelector("#modal-next")
+    .addEventListener("click", () => {
+      removeModal();
 
-    const employeeCards = document.querySelectorAll(".card");
-    let employee = employeeCards[employeeIndex];
-    if (employeeIndex !== employeeCards.length - 1) {
-      employeeIndex += 1;
-      employee = employeeCards[employeeIndex];
-    } else {
-      employeeIndex = 0;
-      employee = employeeCards[employeeIndex];
-    }
-    while (employee.style.display === "none") {
+      const employeeCards = document.querySelectorAll(".card");
+      let employee = employeeCards[employeeIndex];
       if (employeeIndex !== employeeCards.length - 1) {
         employeeIndex += 1;
         employee = employeeCards[employeeIndex];
@@ -256,7 +248,15 @@ function nextEventListener() {
         employeeIndex = 0;
         employee = employeeCards[employeeIndex];
       }
-    }
-    createModal(employeeIndex);
-  });
+      while (employee.style.display === "none") {
+        if (employeeIndex !== employeeCards.length - 1) {
+          employeeIndex += 1;
+          employee = employeeCards[employeeIndex];
+        } else {
+          employeeIndex = 0;
+          employee = employeeCards[employeeIndex];
+        }
+      }
+      createModal(employeeIndex);
+    });
 }
