@@ -1,6 +1,6 @@
 # Employee Directory
 
-### Techdegree Project 5
+### Treehouse Full Stack Techdegree - Project 5
 
 This project is an employee directory that fetches data from the Random User Generator API.
 
